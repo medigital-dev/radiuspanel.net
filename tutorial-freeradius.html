@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RadiusPanel.net</title>
+	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+	
+
+	<div class="container">
+
+		<!-- header -->
+		<div class="header">
+			<div class="logo">
+				<a href="/" style="color: #545454">Radius</a><a href="/" style="color: #004C94">Panel</a><a href="/" style="font-size: 28px; color: yellowgreen">.net</a>
+			</div>
+			<div align="right" class="menu">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="tutorial.html">Tutorial</a></li>
+					<li><a href="download.html">Download</a></li>
+					<li><a href="donasi.html">Donasi</a></li>
+					<li><a href="about.html">About</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<img class="headerimg" src="image/header.png">
+		<!-- end header -->
+
+		<!-- main-->
+		<div class="main">
+			<!-- sidebar -->
+			<div class="sidebar">
+				<a href="tutorial.html">Tutorial</a>
+				<a href="tutorial-lamp.html">1. Install dan setting LAMP</a>
+                <a href="tutorial-freeradius.html">2. Install dan setting freeradius</a>
+                <a href="tutorial-radiuspanel.html">3. Install dan setting RadiusPanel</a>
+                <a href="tutorial-mikrotik.html">4. Setting mikrotik</a>
+			</div>
+			<!-- end sidebar -->
+			
+			<!-- content -->
+			<div class="content">
+			
+				<h3>Tutorial Instalasi dan Konfiguasi freeradius</h3>
+				<p>
+					Setelah mysql-server sudah terinstall dan running tanpa error, langkah selanjutnya adalah install dan konfigurasi freeradius.
+					<div class="code">
+						# apt -y install freeradius freeradius-utils freeradius-mysql
+					</div>
+					<img src="image/tutorial-005.png" alt="">
+					<img src="image/tutorial-006.png" alt="">
+					Konfigurasi freeradius<br>
+					<a style="color: red; font-weight: bold;">NOTE: untuk versi 2 kebawah, lokasi freeradius ada di /etc/freeradius tidak ada "/3.0/". Jadi cukup "/etc/freeradius/"</a>
+					<div class="code">
+						# cd /etc/freeradius/*/mods-enabled<br># ln -s ../mods-available/sql sql<br># nano /etc/freeradius/*/sites-available/default
+					</div>
+					<img src="image/tutorial-007.png" alt="">
+					Hilangkan tanda “-“ dan “#” didepan sql semuanya.
+					<img src="image/tutorial-008.png" alt="">
+					<img src="image/tutorial-009.png" alt="">
+					Gunakan Ctrl + w supaya lebih cepat mencarinya. Simpan dan exit text editor (Ctrl + o --> enter --> Ctrl + x)
+					<div class="code">
+						# nano /etc/freeradius/*/sites-available/inner-tunnel
+					</div>
+					Hilangkang tanda “-“ dan “#” didepan sql semuanya.
+					<img src="image/tutorial-010.png" alt="">
+					Simpan dan exit text editor.
+					<div class="code">
+						# nano /etc/freeradius/*/mods-available/sql<br>
+						<br>
+						------------- Edit bagian ini --------------<br>
+						driver = "rlm_sql_mysql"<br>
+						---------------------------------------------<br>
+						dialect = "mysql"<br>
+						---------------------------------------------<br>
+						server = "localhost"<br>
+						port = 3306<br>
+						login = "root" # user mysql<br>
+						password = "radpass" # password mysql<br>
+						radius_db = "radius"<br>
+						---------------------------------------------<br>
+						read_clients = yes<br>
+						---------------------------------------------<br>
+						client_table = “nas”<br>
+						----------------------------------------------<br>
+					</div>
+					<img src="image/tutorial-011.png" alt="">
+					<img src="image/tutorial-012.png" alt="">
+					<img src="image/tutorial-013.png" alt="">
+					Simpan dan exit text editor.
+					<div class="code">
+						# chgrp -h freerad /etc/freeradius/*/mods-enabled/sql
+					</div>
+					<img src="image/tutorial-014.png" alt="">
+					Selanjutnya membuat database “radius”.
+					<div class="code">
+						# mysql -uroot -pradpass<br>
+						> create database radius;<br>
+						> exit;<br>
+					</div>
+					<img src="image/tutorial-015.png" alt="">
+					Import database
+					<div class="code">
+						# mysql -uroot -pradpass radius < /etc/freeradius/*/mods-config/sql/main/mysql/schema.sql<br>
+						# ln -s /etc/freeradius/*/mods-available/sql /etc/freeradius/*/mods-enabled
+					</div>
+					<img src="image/tutorial-016.png" alt="">
+					Konfigurasi Client
+					<div class="code">
+						# nano /etc/freeradius/*/clients.conf<br>
+						<br>
+						tambahkan pada baris terakhir:<br>
+						-------------------------------------------<br>
+						client hotspot {<br>
+						&nbsp;&nbsp;ipaddr = 192.168.5.0/24	: ip server<br>
+						&nbsp;&nbsp;secret = radpass : password untuk mengkoneksikan dengan mikrotik<br>
+						}<br>
+						-------------------------------------------<br>
+					</div>
+					<img src="image/tutorial-017.png" alt="">
+					Simpan dan exit text editor.<br><br>
+					Testing freeradius service
+					<div class="code">
+						# systemctl stop freeradius<br>
+						# freeradius -X
+					</div>
+					<img src="image/tutorial-018.png" alt="">
+					Jika tidak terdapat error, maka akan muncul status "ready to process request" seperti di atas.<br><br>
+					Selanjutnya cek status freeradius
+					<div class="code">
+						# Ctrl + c<br>
+						# systemctl start freeradius<br>
+						# systemctl enable freeradius<br> 
+					</div>
+					<img src="image/tutorial-019.png" alt="">
+					<div class="code">
+						# systemctl status freeradius
+					</div>
+					<img src="image/tutorial-020.png" alt="">
+					Silahkan cek status freeradius service. Instalasi dan konfigurasi yang benar maka statusnya akan Active (running). Jika belum cek kembali langkah-langkah diatas.<br><br>
+					Selanjutnya menambahkan user ke database melalui mysql.<br>
+					Login ke mysql
+					<div class="code">
+						# Ctrl + c<br>
+						# mysql -uroot -pradpass
+					</div>
+					<img src="image/tutorial-021.png" alt="">
+					<div class="code">
+						> USE radius;<br>
+						> INSERT INTO radcheck VALUES (1, 'demo', 'Cleartext-Password', ':=', '12345');<br>
+						> INSERT INTO radcheck VALUES (2, 'test', 'Cleartext-Password', ':=', '54321');<br>
+						> exit;<br>
+					</div>
+					<img src="image/tutorial-022.png" alt="">
+					Testing aksess
+					<div class="code">
+						# /etc/init.d/freeradius restart<br>
+						# radtest demo 12345 localhost 10 testing123<br>
+						# radtest test 54321 localhost 10 testing123<br>
+					</div>
+					<img src="image/tutorial-023.png" alt="">
+					&quot;Received Access-Accept&quot; berarti freeradius server ini sudah terkonfigurasi dengan benar.<br><br>
+					Jadi inilah fungsi dari RadiusPanel yaitu untuk mempermudah dalam menambahkan user dan atau memanagement freeradius server.
+				</p>
+			
+			</div>
+			<!-- end content -->
+
+		</div>
+		<!-- end main-->
+	</div>
+
+		<!-- footer -->
+		<div class="footer">&copy; 2020 | <a href="/"> RadiusPanel.net</a></div>
+		<!-- end footer -->
+
+	<button onclick="topFunction()" id="myBtn" title="Go to top"><img src="image/top2.png" alt="" width="40px"></button>
+
+	<script>
+		//Get the button:
+		mybutton = document.getElementById("myBtn");
+
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function() {scrollFunction()};
+
+		function scrollFunction() {
+		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+			mybutton.style.display = "block";
+		} else {
+			mybutton.style.display = "none";
+		}
+		}
+
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+		document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		}
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RadiusPanel.net</title>
+	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+	<div class="container">
+
+		<!-- header -->
+		<div class="header">
+			<div class="logo">
+				<a href="/" style="color: #545454">Radius</a><a href="/" style="color: #004C94">Panel</a><a href="/" style="font-size: 28px; color: yellowgreen">.net</a>
+			</div>
+			<div align="right" class="menu">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="tutorial.html">Tutorial</a></li>
+					<li><a href="download.html">Download</a></li>
+					<li><a href="donasi.html">Donasi</a></li>
+					<li><a href="about.html">About</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<img class="headerimg" src="image/header.png">
+		<!-- end header -->
+
+		<!-- main-->
+		<div class="main">
+			<!-- sidebar -->
+			<div class="sidebar">
+				<a href="tutorial.html">Tutorial</a>
+				<a href="tutorial-lamp.html">1. Install dan setting LAMP</a>
+                <a href="tutorial-freeradius.html">2. Install dan setting freeradius</a>
+                <a href="tutorial-radiuspanel.html">3. Install dan setting RadiusPanel</a>
+                <a href="tutorial-mikrotik.html">4. Setting mikrotik</a>
+			</div>
+			<!-- end sidebar -->
+			
+			<!-- content -->
+			<div class="content">
+			
+				<h3>Tutorial Instalasi Web Server/LAMP (Linux, Apache, MySQL, PHP)</h3>
+				<p>
+					Hal pertama yang harus diinstall dan di konfiguasi adalah apache2 dan mysql-server. Jika pada server anda sudah terinstall dan terkonfigurasi tanpa error, langkah ini bisa di skip. Jika belum silahkan mengikuti tutorial berikut.<br>
+				<div class="code">
+					# apt update<br>
+					# apt install -y apache2 mysql-server php php-mysql
+				</div>
+				<img src="image/tutorial-001.png" alt="">
+				<div class="code">
+					# mysql_secure_installation<br>
+					y<br>
+					0 #gunakan 0 supaya gak ribet passwordnya<br>
+					radpass #password mysql sesuai keinginan anda<br>
+					radpass	#repeat password<br>
+					y<br>
+					y<br>
+					y<br>
+					y<br>
+					y<br>
+				</div>
+				<img src="image/tutorial-002.png" alt="">
+				<img src="image/tutorial-003.png" alt="">
+				Selanjutnya konfigurasi mysql-server<br>
+				<div class="code">
+					# mysql<br>> UNINSTALL PLUGIN validate_password;<br>> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'radpass';<br>> FLUSH PRIVILEGES;<br>> exit;
+				</div>
+				<img src="image/tutorial-004.png" alt="">
+				<br>Done. Instalasi dan konfigurasi mysql-server selesai
+				</p>
+			
+			</div>
+			<!-- end content -->
+
+		</div>
+		<!-- end main-->
+		
+	</div>
+
+		<!-- footer -->
+		<div class="footer">&copy; 2020 | <a href="/"> RadiusPanel.net</a></div>
+		<!-- end footer -->
+
+	
+</body>
+</html>

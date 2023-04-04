@@ -1,0 +1,149 @@
+body {
+	background-color: #EFEFEF; 
+	font-family: Trebuchet MS, sans-serif;
+}
+
+.container {
+	width: 800px;
+	min-height: 560px;
+	border: 2px solid #004C94; 
+	border-radius: 20px; 
+	background-color: white; 
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.header {
+	width: 100%;
+	display: flex;
+}
+.logo {
+	padding: 15px;
+	font-family: candara; 
+	font-size: 36px; 
+	width: 30%; 
+	font-weight: bold;
+}
+.logo a {
+	text-decoration: none;
+}
+.menu {
+	width: 70%; 
+	padding: 25px 20px 25px 10px;
+	float: right;
+}
+.menu ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.menu li {
+	display: inline;
+}
+.menu a {
+	padding: 0 5px 0 5px;
+	border-left: 1px solid #DBDBDB;
+	border-right: 1px solid #DBDBDB;
+	text-transform: lowercase;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bold;
+	color: #004C94;
+}
+.menu a:hover {
+	color: red;
+}
+.headerimg {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 97%;
+}
+.main {
+	width: 800px;
+	min-height: 382px;
+	margin-top: 10px;
+}
+.sidebar {
+	width: 150px;
+	background-color: white;
+	overflow: hidden;
+	position: absolute;
+}
+.sidebar a {
+	text-decoration: none;
+	color: #004C94;
+	display: block;
+	font-size: 15px;
+	padding: 10px 20px 10px 20px;
+}
+.sidebar a:hover {
+	color: red;
+}
+.content {
+	width: 630px;
+	min-height: 378px;
+	margin-left: 155px;
+	background-color: white;
+	position: relative;
+}
+.content h3 {
+	border-bottom: 2px solid #DFDFDF;
+	padding: 10px;
+	margin: 0px;
+}
+.content p {
+	padding: 10px;
+	line-height: 24px;
+	margin: 0;
+}
+.content a {
+	text-decoration: none;
+}
+.content img {
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	display: block;
+	width: 95%;
+}
+.content ol {
+	margin: 0;
+	line-height: 1.5;
+}
+.footer {
+	margin-top: 7px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 12px;
+	color: #004C94;
+	text-align: center;
+}
+.footer a {
+	text-decoration: none;
+}
+.code {
+	width: 95%;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: rgb(231, 228, 228);
+	border-radius: 5px;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 13px;
+	line-height: 1.5;
+	padding: 5px;
+}
+#myBtn {
+	display: none; /* Hidden by default */
+	position: fixed; /* Fixed/sticky position */
+	bottom: 20px; /* Place the button at the bottom of the page */
+	right: 30px; /* Place the button 30px from the right */
+	z-index: 99; /* Make sure it does not overlap */
+	border: none; /* Remove borders */
+	outline: none; /* Remove outline */
+	cursor: pointer; /* Add a mouse pointer on hover */	
+}

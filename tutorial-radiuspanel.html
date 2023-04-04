@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RadiusPanel.net</title>
+	<link rel="shortcut icon" href="image/logo.png" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+</head>
+<body>
+	<div class="container">
+
+		<!-- header -->
+		<div class="header">
+			<div class="logo">
+				<a href="/" style="color: #545454">Radius</a><a href="/" style="color: #004C94">Panel</a><a href="/" style="font-size: 28px; color: yellowgreen">.net</a>
+			</div>
+			<div align="right" class="menu">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="tutorial.html">Tutorial</a></li>
+					<li><a href="download.html">Download</a></li>
+					<li><a href="donasi.html">Donasi</a></li>
+					<li><a href="about.html">About</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<img class="headerimg" src="image/header.png">
+		<!-- end header -->
+
+		<!-- main-->
+		<div class="main">
+			<!-- sidebar -->
+			<div class="sidebar">
+				<a href="tutorial.html">Tutorial</a>
+				<a href="tutorial-lamp.html">1. Install dan setting LAMP</a>
+                <a href="tutorial-freeradius.html">2. Install dan setting freeradius</a>
+                <a href="tutorial-radiuspanel.html">3. Install dan setting RadiusPanel</a>
+                <a href="tutorial-mikrotik.html">4. Setting mikrotik</a>
+			</div>
+			<!-- end sidebar -->
+			
+			<!-- content -->
+			<div class="content">
+			
+				<h3>Tutorial Instalasi dan Konfiguasi RadiusPanel</h3>
+				<p>
+					Agar RadiusPanel berjalan dengan baik, silahkan ikuti langkah-langkah berikut:<br><br>
+					<b>Download RadiusPanel dan extract</b>
+					<div class="code">
+						# wget https://www.dropbox.com/s/nxppm55tnl5kz2t/radius-panel_free.tar.gz<br>
+						# tar zxvf radius-panel_free.tar.gz -C /<br>
+						# rm radius-panel_free.tar.gz<br>
+						# chmod -R 777 /usr/share/radiuspanel/<br>
+						# chown -R www-data.www-data /usr/share/radiuspanel
+					</div>
+					<img src="image/tutorial-024.png" alt="">
+					<img src="image/tutorial-025.png" alt="">
+					<img src="image/tutorial-026.png" alt=""><br>
+					<b>Konfiguasi virtualhost</b>
+					<div class="code">
+						# touch /etc/apache2/sites-available/radiuspanel.conf<br>
+						# echo "Listen 81<br>
+						&nbsp;&nbsp;&lt;VirtualHost *:81&gt;<br>
+						&nbsp;&nbsp;DocumentRoot /usr/share/radiuspanel<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;ServerName radius.os<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;ErrorLog /dev/null<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;CustomLog /dev/null common<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;Directory /usr/share/radiuspanel&gt;<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Options Indexes FollowSymLinks MultiViews<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AllowOverride All<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order allow,deny<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow from all<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Directory&gt;<br>
+						&nbsp;&nbsp;&lt;/VirtualHost&gt;" > /etc/apache2/sites-available/radiuspanel.conf<br>
+						# a2enmod rewrite<br>
+						# a2ensite radiuspanel.conf<br>
+						# /etc/init.d/apache2 restart<br>
+						# systemctl reload apache2<br>
+					</div>
+					<img src="image/tutorial-027.png" alt=""><br>
+					Selanjutnya cek instalasi RadiusPanel melalui web browser dengan membuka alamat server dengan port 81. Pada contoh dibawah ini menggunakan IP <a style="color: green; font-weight: bold;">192.168.5.2</a> port 81.
+					<img src="image/tutorial-028.png" alt="">
+					Pastikan konfigurasi db_koneksi.php benar sesuai setingan masing-masing. Untuk kasus koneksi ke database gagal seperti contoh diatas, cara memperbaikinya:
+					<div class="code">
+						# nano /usr/share/radiuspanel/db_koneksi.php
+					</div>
+					<img src="image/tutorial-029.png" alt="">
+					Pastikan semua variable sesuai dengan konfigurasi masing-masing. Kemudian simpan dan exit text editor.<br><br>
+					Kembali ke web browser, kemudian klik tombol kembali.
+					<img src="image/tutorial-030.png" alt=""><br>
+					<b>RadiusPanel Siap Digunakan</b>
+				</p>
+			
+			</div>
+			<!-- end content -->
+
+		</div>
+		<!-- end main-->
+
+	</div>
+	<!-- end container -->
+	
+		<!-- footer -->
+		<div class="footer">&copy; 2020 | <a href="/"> RadiusPanel.net</a></div>
+		<!-- end footer -->
+
+	
+</body>
+</html>
